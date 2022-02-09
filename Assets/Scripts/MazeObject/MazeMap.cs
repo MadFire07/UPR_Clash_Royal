@@ -96,6 +96,7 @@ public class MazeMap
     public void LoadFromFile(string fileName)
     {
         Debug.Log("MazeMap, Load : fileName = " + fileName);
+
         MazeTile.SaveObject[] saveObjectArray = JsonHelper.FromJson<MazeTile.SaveObject>(SaveSystem.LoadMap(fileName));
         Debug.Log("MazeMap, Load : saveobject lenght + " + saveObjectArray.Length);
 
