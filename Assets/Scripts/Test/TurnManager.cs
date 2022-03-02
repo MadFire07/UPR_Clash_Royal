@@ -24,7 +24,7 @@ public class TurnManager : MonoBehaviour
         set
         {
             turnNb = value;
-
+            
             var deadBots = new List<MazeBot>();
             foreach (MazeBot bot in setter.Bots)
             {
@@ -34,17 +34,46 @@ public class TurnManager : MonoBehaviour
                 var up = setter.CheckBotOnATile(grid.GetValue(bot.CurrentTile.GetXPos(), bot.CurrentTile.GetYPos() + 1));
                 var down = setter.CheckBotOnATile(grid.GetValue(bot.CurrentTile.GetXPos(), bot.CurrentTile.GetYPos() - 1));
 
-                if (left != null && left.Team != bot.Team)
-                    enemyBots.Add(left);
-                if (right != null && right.Team != bot.Team)
-                    enemyBots.Add(right);
-                if (up != null && up.Team != bot.Team)
-                    enemyBots.Add(up);
-                if (down != null && down.Team != bot.Team)
-                    enemyBots.Add(down);
-
-                bot.Health -= enemyBots.Count;
-                if (bot.Health <= 0) deadBots.Add(bot);
+                if (bot.Team == 0)
+                {
+                    if (up != null && up.Team != bot.Team)
+                    {
+                        up.Health -= 1;
+                        if (up.Health <= 0) deadBots.Add(up);
+                    } else if (left != null && left.Team != bot.Team)
+                    {
+                        left.Health -= 1;
+                        if (left.Health <= 0) deadBots.Add(left);
+                    } else if (right != null && right.Team != bot.Team)
+                    {
+                        right.Health -= 1;
+                        if (right.Health <= 0) deadBots.Add(right);
+                    } else if (down != null && down.Team != bot.Team)
+                    {
+                        down.Health -= 1;
+                        if (down.Health <= 0) deadBots.Add(down);
+                    }
+                }
+                else
+                {
+                    if (down != null && down.Team != bot.Team)
+                    {
+                        down.Health -= 1;
+                        if (down.Health <= 0) deadBots.Add(down);
+                    } else if (right != null && right.Team != bot.Team)
+                    {
+                        right.Health -= 1;
+                        if (right.Health <= 0) deadBots.Add(right);
+                    } else if (left != null && left.Team != bot.Team)
+                    {
+                        left.Health -= 1;
+                        if (left.Health <= 0) deadBots.Add(left);
+                    } else if (up != null && up.Team != bot.Team)
+                    {
+                        up.Health -= 1;
+                        if (up.Health <= 0) deadBots.Add(up);
+                    }
+                }
             }
             if(deadBots.Count > 0) setter.SetBots(deadBots);
 
